@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using SingerApp.Data.DataLookups;
+using SingerApp.Singers;
+using SingerApp.Singers.Dtos;
 
 namespace SingerApp;
 
@@ -6,8 +9,11 @@ public class SingerAppApplicationAutoMapperProfile : Profile
 {
     public SingerAppApplicationAutoMapperProfile()
     {
-        /* You can configure your AutoMapper mapping configuration here.
-         * Alternatively, you can split your mapping configurations
-         * into multiple profile classes for a better organization. */
+        CreateMap<Singer, SingerDto>();
+        CreateMap<Singer, SingerListDto>();
+        CreateMap<SingerCreareOrUpdateDto, Singer>();
+        CreateMap<SingerTranslation, SingerTranslationDto>();
+        CreateMap<SingerTranslationDto, SingerTranslation>();
+        CreateMap<Country, CountryLookupDto>();
     }
 }

@@ -3,6 +3,23 @@
   "texts": {
     "Menu:Home": "Home",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "Menu:Singers": "Singers",
+    "CountryName": "Country",
+    "IsActive": "Is Active",
+    "Name": "Name",
+    "FormName:IsActive": "Is active?",
+    "FormName:Country": "Country",
+    "FormName:Translations": "Translations",
+    "FormName:SingerPicture": "Picture",
+    "FormName:DefaultName": "Default Name",
+    "NewSinger": "New Singer",
+    "Actions": "Actions",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "SingerDeletionConfirmationMessage": "Are you sure to delete the singer?",
+    "SuccessfullyDeleted": "Successfully Deleted!",
+    "InActive": "In Active",
+    "Active": "Active"
   }
 }

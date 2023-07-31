@@ -4,7 +4,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net7.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
     <RootNamespace>SingerApp</RootNamespace>
   </PropertyGroup>
 

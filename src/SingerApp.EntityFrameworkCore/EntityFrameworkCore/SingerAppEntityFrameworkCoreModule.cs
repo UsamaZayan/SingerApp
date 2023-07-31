@@ -12,6 +12,9 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.DependencyInjection;
+using SingerApp.Singers;
+using Microsoft.EntityFrameworkCore;
 
 namespace SingerApp.EntityFrameworkCore;
 
@@ -51,6 +54,14 @@ public class SingerAppEntityFrameworkCoreModule : AbpModule
                 /* The main point to change your DBMS.
                  * See also SingerAppMigrationsDbContextFactory for EF Core tooling. */
             options.UseNpgsql();
+        });
+
+        Configure<AbpEntityOptions>(options => 
+        { 
+            options.Entity<Singer>(singerOptions => 
+            { 
+                singerOptions.DefaultWithDetailsFunc = query => query.Include(o => o.Translations); 
+            }); 
         });
 
     }

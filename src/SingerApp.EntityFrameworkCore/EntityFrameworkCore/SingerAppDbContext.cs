@@ -12,6 +12,14 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using SingerApp.DataFilters;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System.Linq.Expressions;
+using System;
+using SingerApp.Singers;
+using SingerApp.Data.DataLookups;
+using System.Reflection;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace SingerApp.EntityFrameworkCore;
 
@@ -24,6 +32,14 @@ public class SingerAppDbContext :
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
+
+    public DbSet<Singer> Singers { get; set; }
+    public DbSet<Country> Countries { get; set; }
+
+    public DbSet<SingerTranslation> SingerTranslations { get; set; }
+
+
+    protected virtual bool IsActiveFilterEnabled => DataFilter?.IsEnabled<IIsActive>() ?? false;
 
     #region Entities from the modules
 
@@ -65,6 +81,7 @@ public class SingerAppDbContext :
 
         /* Include modules to your migration db context */
 
+        builder.HasPostgresExtension("uuid-ossp");
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();
@@ -74,13 +91,59 @@ public class SingerAppDbContext :
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
-        /* Configure your own tables/entities inside here */
+        builder.Entity<Country>(b =>
+        {
+            b.ToTable("Countries");
+            b.ConfigureByConvention();
+            b.HasIndex(x => x.Name);
+        });
 
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(SingerAppConsts.DbTablePrefix + "YourEntities", SingerAppConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+        builder.Entity<SingerTranslation>(b =>
+        {
+            b.ToTable("SingerTranslation");
+            b.Property(x => x.Name)
+                .IsRequired()
+                .HasMaxLength(SingerConsts.MaxNameLength)
+                .HasAnnotation("MinLength", SingerConsts.MinNameLength);
+            b.ConfigureByConvention();
+            b.HasIndex(x => x.Name).IsUnique();
+        });
+        
+        builder.Entity<Singer>(b =>
+        {
+            b.ToTable("Singers");
+            b.HasOne(x => x.Country)
+                .WithMany()
+                .HasForeignKey(x => x.CountryId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+        });
+
+    }
+
+    protected override bool ShouldFilterEntity<TEntity>(IMutableEntityType entityType)
+    {
+        if (typeof(IIsActive).IsAssignableFrom(typeof(TEntity)))
+        {
+            return true;
+        }
+
+        return base.ShouldFilterEntity<TEntity>(entityType);
+    }
+
+    protected override Expression<Func<TEntity, bool>> CreateFilterExpression<TEntity>()
+    {
+        var expression = base.CreateFilterExpression<TEntity>();
+
+        if (typeof(IIsActive).IsAssignableFrom(typeof(TEntity)))
+        {
+            Expression<Func<TEntity, bool>> isActiveFilter =
+                e => !IsActiveFilterEnabled || EF.Property<bool>(e, nameof(IIsActive.IsActive));
+            expression = expression == null
+                ? isActiveFilter
+                : CombineExpressions(expression, isActiveFilter);
+        }
+
+        return expression;
     }
 }

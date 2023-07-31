@@ -1,0 +1,37 @@
+﻿@page
+@using SingerApp.Web.Pages.Singers
+@using Microsoft.Extensions.Localization
+@using SingerApp.Localization
+@model SingerApp.Web.Pages.Singers.IndexModel
+@inject IStringLocalizer<SingerAppResource> L
+@section scripts
+{
+    <abp-script src="/Pages/Singers/Index.cshtml.js" />
+}
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Menu:Singers"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                <abp-button id="NewSingerButton"
+                            text="@L["NewSinger"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+            </abp-column>
+        </abp-row>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-input asp-for="@Model.SearchInput.filter" name="Search" label="@L["Name"].Value" />
+            </abp-column>
+            <abp-column size-md="_6">
+                <abp-select asp-for="@Model.SearchInput.CountryId" asp-items="@Model.Countries" name="CountryId" label="@L["CountryName"].Value" />
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <span abp-badge="Success">Primary</span>
+        <abp-table id="SingersTable" striped-rows="true" />
+    </abp-card-body>
+</abp-card>

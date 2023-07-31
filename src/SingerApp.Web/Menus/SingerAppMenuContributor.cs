@@ -34,6 +34,20 @@ public class SingerAppMenuContributor : IMenuContributor
             )
         );
 
+        context.Menu.AddItem(
+             new ApplicationMenuItem(
+                 "Singer",
+                 l["Menu:Singers"],
+                 icon: "fas fa-headphones-alt"
+                    ).AddItem(
+                 new ApplicationMenuItem(
+                     "SingerApp.Singers",
+                     l["Menu:Singers"],
+                     url: "/singers"
+                 )
+             )
+        );
+
         if (MultiTenancyConsts.IsEnabled)
         {
             administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);

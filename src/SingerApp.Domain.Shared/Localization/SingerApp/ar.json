@@ -3,6 +3,23 @@
   "texts": {
     "Menu:Home": "الرئيسية",
     "Menu:Home": "الصفحة الرئيسية",
-    "LongWelcomeMessage": "مرحبا بكم في التطبيق. هذا مشروع بدء تشغيل يعتمد على إطار عمل ABP. لمزيد من المعلومات ، يرجى زيارة abp.io."
+    "LongWelcomeMessage": "مرحبا بكم في التطبيق. هذا مشروع بدء تشغيل يعتمد على إطار عمل ABP. لمزيد من المعلومات ، يرجى زيارة abp.io.",
+    "Menu:Singers": "المغنين",
+    "CountryName": "الدول",
+    "IsActive": "نشط؟",
+    "Name": "الاسم",
+    "FormName:IsActive": "نشط؟",
+    "FormName:Country": "الدولة",
+    "FormName:Translations": "الترجمة",
+    "FormName:SingerPicture": "الصورة",
+    "FormName:DefaultName": "الاسم الافتراضي",
+    "NewSinger": "إضافة مغني",
+    "Actions": "الاجراءات",
+    "Edit": "تعديل",
+    "Delete": "حذف",
+    "SingerDeletionConfirmationMessage": "هل أنت متأكد من حذف المغني؟",
+    "SuccessfullyDeleted": "تم الحذف بنجاح!",
+    "InActive": "غير نشط",
+    "Active": "نشط"
   }
 }
